@@ -1,28 +1,41 @@
 {
   "name": "web-crypto",
-  "version": "1.0.0",
-  "description": "WebCryptoAPI的AES-256-GCM算法提供安全的文件加密",
-  "main": "app.js",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "build": "browserify src/js/app.js -o bundle.js"
-  },
-  "devDependencies": {
-    "browserify": "^16.5.0",
-    "webpack-cli": "^3.3.2"
+    "dev": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "bootstrap": "^4.3.1",
-    "font-awesome": "^4.7.0",
-    "jquery": "^3.4.1",
-    "popper.js": "^1.15.0",
+    "core-js": "^3.4.4",
+    "element-ui": "^2.13.0",
+    "vue": "^2.6.10",
     "zxcvbn": "^4.4.2"
   },
-  "keywords": [
-    "file-encryption",
-    "encrypt",
-    "decrypt",
-    "fast",
-    "secure",
-    "serverless"
-  ]
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^4.1.0",
+    "@vue/cli-plugin-eslint": "^4.1.0",
+    "@vue/cli-service": "^4.1.0",
+    "@vue/eslint-config-prettier": "^5.0.0",
+    "babel-eslint": "^10.0.3",
+    "babel-plugin-component": "^1.1.1",
+    "eslint": "^5.16.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-vue": "^5.0.0",
+    "lint-staged": "^9.5.0",
+    "prettier": "^1.19.1",
+    "sass": "^1.23.7",
+    "sass-loader": "^8.0.0",
+    "vue-template-compiler": "^2.6.10"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,vue}": [
+      "vue-cli-service lint --fix",
+      "git add"
+    ]
+  }
 }
