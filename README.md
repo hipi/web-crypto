@@ -26,4 +26,4 @@ npm run build
 
 ## template
 
-![](https://raw.githubusercontent.com/cyea/wcrto/master/doc/img/tmp.png)
+![](https://raw.githubusercontent.com/cyea/web-crypto/dev/doc/img/tmp.png)
