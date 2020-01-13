@@ -366,7 +366,9 @@ export default {
           D.code === 0 ? (this.$parent.count = D.count) : "";
           console.log(D);
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+          console.log(err);
+        });
     }
   },
   mounted() {}

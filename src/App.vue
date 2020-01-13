@@ -44,7 +44,9 @@ export default {
           this.count = D.count;
         }
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+      });
   }
 };
 </script>
