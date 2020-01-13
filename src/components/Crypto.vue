@@ -354,7 +354,7 @@ export default {
       }
     },
     addCount(type) {
-      fetch("https://api.chenyeah/v1/addcriptocount", {
+      fetch("https://api.chenyeah.com/v1/addcriptocount", {
         method: "post",
         body: `type=${type}`,
         headers: {
