@@ -250,6 +250,7 @@ export default {
               //console.log("file has been successuflly encrypted");
               that.loading.close();
               that.resetForm(); // reset file and key inputs when done
+              that.addCount("encrypt");
             })
             .catch(function() {
               that.$message.error("加密失败，请稍后再试！");
@@ -343,6 +344,7 @@ export default {
               //console.log("file has been successuflly decrypted");
               that.loading.close();
               that.resetForm(); // reset file and key inputs when done
+              that.addCount("decrypt");
             })
             .catch(function() {
               that.$message.error("您的解密密钥是错误的!");
@@ -350,6 +352,21 @@ export default {
         };
         fr.readAsArrayBuffer(that.file); //read the file as buffer
       }
+    },
+    addCount(type) {
+      fetch("https://api.chenyeah/v1/addcriptocount", {
+        method: "post",
+        body: `type=${type}`,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        }
+      })
+        .then(response => response.json())
+        .then(D => {
+          D.code === 0 ? (this.$parent.count = D.count) : "";
+          console.log(D);
+        })
+        .catch(err => console.log(err));
     }
   },
   mounted() {}

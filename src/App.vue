@@ -1,7 +1,11 @@
 <template>
   <div id="app">
     <h1 class="logo">Web Crypto</h1>
-    <p class="lead">免费的加密/解密网站</p>
+    <p class="slogan">免费的加密/解密网站</p>
+    <div class="lead">
+      已经完成对<span>{{ count }}</span
+      >个文件的加密/解密
+    </div>
     <Crypto />
     <div class="dec">
       <p>
@@ -24,6 +28,23 @@ export default {
   name: "app",
   components: {
     Crypto
+  },
+  data() {
+    return {
+      count: 0
+    };
+  },
+  mounted() {
+    fetch("https://api.chenyeah.com/v1/getcriptocount", {
+      method: "post"
+    })
+      .then(response => response.json())
+      .then(D => {
+        if (D.code === 0) {
+          this.count = D.count;
+        }
+      })
+      .catch(err => console.log(err));
   }
 };
 </script>
@@ -38,9 +59,20 @@ body {
   font-size: 3.5rem;
   margin: 20px 0;
 }
-.lead {
+.slogan {
   font-size: 1.25rem;
   font-weight: 300;
+  margin-bottom: 0;
+}
+.lead {
+  margin: 1.25rem 0;
+  font-size: 1.25rem;
+  color: #67c23a;
+  span {
+    color: red;
+    margin: 0 10px;
+    font-size: 2rem;
+  }
 }
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
