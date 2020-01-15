@@ -24,7 +24,7 @@
           "
         />
         <div class="file-placeholder">
-          {{ fileInfo }} <span v-if="fileSize">{{ fileSize }}</span>
+          {{ fileInfo }} <span v-show="fileSize">{{ fileSize }}</span>
         </div>
       </label>
     </div>
@@ -73,7 +73,7 @@
           :blobStr="n.blobStr"
         />
         <resultDecryption
-          v-if="n.type === 2"
+          v-show="n.type === 2"
           :nameStr="n.nameStr"
           :blobStr="n.blobStr"
         />
@@ -380,8 +380,10 @@ export default {
   position: relative;
   margin-bottom: 20px;
   .custom-file-input {
+    font-size: 1rem;
     position: absolute;
     z-index: 9999;
+    cursor: pointer;
     height: 42px;
     opacity: 0;
     width: 100%;
@@ -390,7 +392,8 @@ export default {
     }
   }
   .file-placeholder {
-    color: #666;
+    color: #606266;
+    font-size: 1rem;
     text-align: left;
     overflow: hidden;
     white-space: nowrap;
@@ -413,7 +416,7 @@ export default {
       padding: 0 15px;
       line-height: 40px;
       color: #495057;
-      background-color: #e9ecef;
+      background-color: #f5f7fa;
       border-left: 1px solid #dcdfe6;
       border-radius: 0 4px 4px 0;
     }
@@ -427,9 +430,11 @@ export default {
   }
 }
 .input-key {
-  ::v-deep .el-input__inner::-webkit-input-placeholder {
-    color: #495057;
+  ::v-deep .el-input__inner {
     font-size: 1rem;
+  }
+  ::v-deep .el-input__inner::-webkit-input-placeholder {
+    color: #606266;
   }
   ::v-deep .el-icon-refresh {
     font-size: 1.5rem;
@@ -442,7 +447,7 @@ export default {
   .el-progress {
     margin-top: 10px;
     ::v-deep .el-progress-bar__innerText {
-      color: #495057;
+      color: #606266;
     }
   }
 }
