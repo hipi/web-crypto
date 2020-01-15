@@ -11,7 +11,7 @@ export const str2ab = str => {
 
 export const generateKey = () => {
   const usedChars =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#_+=";
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let keyArray = new Uint8Array(16); //lenght of the key
   window.crypto.getRandomValues(keyArray); //randomize
   keyArray = keyArray.map(x => usedChars.charCodeAt(x % usedChars.length));
