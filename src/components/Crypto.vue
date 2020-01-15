@@ -132,6 +132,7 @@ export default {
       this.isHaveFile = true;
       this.fileInfo = file.name;
       let nBytes = file.size;
+      let fileSize = "";
       for (
         let aMultiples = ["KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"],
           nMultiple = 0,
@@ -139,8 +140,9 @@ export default {
         nApprox > 1;
         nApprox /= 1024, nMultiple++
       ) {
-        this.fileSize = nApprox.toFixed(2) + " " + aMultiples[nMultiple];
+        fileSize = nApprox.toFixed(2) + " " + aMultiples[nMultiple];
       }
+      this.fileSize = fileSize || "";
     },
     keyCheckMeter(val) {
       let result = zxcvbn(val);
