@@ -61,8 +61,13 @@
       >
     </div>
     <div class="dangerInfo">
-      <p>请务必保存好您的密码，一旦丢失，您将无法解密您的文件.</p>
-      <p>文件不会上传服务器，所有的操作都只在您的本地浏览器进行.</p>
+      <div>文件大小理论不限制，但为了性能，建议不超 <span>2G</span> 。</div>
+      <div>
+        请务必<span>保存好您的密码</span>，一旦丢失，您将无法解密您的文件。
+      </div>
+      <div>
+        文件<span>不会上传服务器</span>，所有的操作都只在您的<span>本地浏览器</span>进行。
+      </div>
     </div>
     <div class="result">
       <div v-for="(n, i) in resultList" :key="i">
@@ -458,8 +463,11 @@ export default {
   margin: 20px 0;
   color: red;
   font-size: 12px;
-  p {
-    margin: 0;
+  div {
+    margin: 4px 0;
+    span {
+      text-decoration: underline;
+    }
   }
 }
 .result {

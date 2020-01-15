@@ -12,7 +12,6 @@
         使用浏览器中包含的WebCryptoAPI的AES-256-GCM算法提供安全的文件加密。
       </p>
       <p>这是快速，安全和无服务器，应用程序从未上传文件到服务器。</p>
-      <p>该应用程序可以用少量代码在几秒钟内加密任何大小的任何类型的文件。</p>
       <p>
         要使用该应用程序，您要做的就是浏览文件，键入解密密钥或
         通过我们的安全密钥生成器生成一个。您的加密文件就可以下载了。
@@ -89,7 +88,7 @@ body {
   margin-bottom: 128px;
 }
 .dec {
-  font-size: 12px;
+  font-size: 14px;
   background: #f8f9fa;
   position: fixed;
   bottom: 0;
