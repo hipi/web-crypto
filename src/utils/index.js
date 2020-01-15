@@ -9,10 +9,10 @@ export const str2ab = str => {
   return buf;
 };
 
-export const generateKey = () => {
+export const generateKey = (limit = 12) => {
   const usedChars =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let keyArray = new Uint8Array(16); //lenght of the key
+  let keyArray = new Uint8Array(limit); //lenght of the key
   window.crypto.getRandomValues(keyArray); //randomize
   keyArray = keyArray.map(x => usedChars.charCodeAt(x % usedChars.length));
   return String.fromCharCode.apply(null, keyArray);
