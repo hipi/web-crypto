@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1 class="logo">Web Crypto</h1>
+    <h1 class="logo">YOSE.FUN</h1>
     <p class="slogan">免费的加密/解密网站</p>
     <div class="lead">
       已经完成对<span>{{ count }}</span
@@ -60,11 +60,15 @@ body {
 .logo {
   font-size: 3.5rem;
   margin: 20px 0;
+  // text-shadow: 5px 5px 5px #1e334a;
+  color: #409eff;
+  font-style: italic;
 }
 .slogan {
   font-size: 1.25rem;
   font-weight: 300;
   margin-bottom: 0;
+  color: #409eff;
 }
 .lead {
   margin: 1.25rem 0;
