@@ -13,10 +13,20 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+      
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+   
+    - name: Cache dependencies
+      uses: actions/cache@v1
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+    
     - name: npm install, build
       run: |
         npm install
@@ -24,7 +34,7 @@ jobs:
         cp CNAME ./dist/
 
     - name: Deploy
-      uses: peaceiris/actions-gh-pages@v2
+      uses: peaceiris/actions-gh-pages@v2.10.1
       env:
         PERSONAL_TOKEN: ${{ secrets.github-actions }}
         PUBLISH_BRANCH: gh-pages
