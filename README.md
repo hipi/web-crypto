@@ -1,3 +1,5 @@
+![GitHub Actions status](https://github.com/cyea/web-crypto/workflows/gh-pages/badge.svg)  
+
 # web-crypto
 
 ## 开发
