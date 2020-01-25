@@ -209,7 +209,7 @@ export default {
         type: "application/octet-stream"
       }); // meaning download this file
       const blobStr = URL.createObjectURL(blob); //create a url for blob
-      this.resultList.push({ nameStr, type, dKey, blobStr });
+      this.resultList.unshift({ nameStr, type, dKey, blobStr });
     },
     async encryptFile() {
       const that = this;
