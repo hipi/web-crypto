@@ -149,6 +149,8 @@ export default {
       }
     },
     keyCheckMeter(val) {
+      val = val.replace(/#/g, "");
+      this.dKey = val;
       let result = zxcvbn(val);
       this.percentage = result.score * 25;
       let strength = {
