@@ -343,9 +343,15 @@ export default {
             )
             .then(function(decrypted) {
               //returns an ArrayBuffer containing the decrypted data
+              // 判断文件名是否是解密的
+              let reg = /Encrypted#[^ \f\n\r\t\v#]*#/;
+              let FILE_NAME = that.file.name;
+              if (FILE_NAME.match(reg)) {
+                FILE_NAME = FILE_NAME.replace(FILE_NAME.match(reg)[0], "");
+              }
 
               that.processFinished(
-                that.file.name.replace("Encrypted-", ""),
+                FILE_NAME,
                 [new Uint8Array(decrypted)],
                 2,
                 that.dKey
@@ -358,6 +364,7 @@ export default {
             })
             .catch(function() {
               that.$message.error("您的解密密钥是错误的!");
+              that.loading.close();
             });
         };
         fr.readAsArrayBuffer(that.file); //read the file as buffer
