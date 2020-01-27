@@ -28,12 +28,7 @@
         </div>
       </label>
     </div>
-    <el-input
-      @input="keyCheckMeter"
-      class="input-key"
-      placeholder="输入解密所需的密码"
-      v-model="dKey"
-    >
+    <el-input class="input-key" placeholder="输入解密所需的密码" v-model="dKey">
       <el-tooltip
         slot="append"
         effect="dark"
@@ -143,6 +138,15 @@ export default {
         fileSize = nApprox.toFixed(2) + " " + aMultiples[nMultiple];
       }
       this.fileSize = fileSize || "";
+
+      // 判断文件名是否是解密的
+      let reg = /Encrypted#[^ \f\n\r\t\v#]*#/;
+      if (this.fileInfo.match(reg)) {
+        this.dKey = this.fileInfo
+          .match(reg)[0]
+          .replace("Encrypted#", "")
+          .replace("#", "");
+      }
     },
     keyCheckMeter(val) {
       let result = zxcvbn(val);
@@ -159,7 +163,6 @@ export default {
     refreshKey() {
       const dKey = generateKey();
       this.dKey = dKey;
-      this.keyCheckMeter(dKey);
     },
     resetForm() {
       this.dKey = "";
@@ -167,7 +170,7 @@ export default {
       this.file = null;
       this.fileInfo = "选择文件进行加密/解密";
       this.fileSize = "";
-      this.keyCheckMeter("");
+
       this.percentageText = "";
     },
     importSecretKey(password) {
@@ -378,7 +381,10 @@ export default {
         });
     }
   },
-  mounted() {}
+  mounted() {},
+  watch: {
+    dKey: "keyCheckMeter"
+  }
 };
 </script>
 
