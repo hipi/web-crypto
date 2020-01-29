@@ -48,4 +48,5 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         port: 22
         source: "./dist/*"
-        target: "/www/wwwroot"
+        target: "/www/wwwroot/jm"
+        strip_components: 1
