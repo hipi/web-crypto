@@ -50,3 +50,4 @@ jobs:
         source: "./dist/*"
         target: "/www/wwwroot/jm"
         strip_components: 1
+        rm: true
