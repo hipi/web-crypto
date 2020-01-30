@@ -59,7 +59,9 @@
       <div>
         请务必<span>保存好您的密码</span>，一旦丢失，您将无法解密您的文件。
       </div>
-      <div>文件大小理论不限制，如果<span>点击操作无反应</span>，可能文件大小超出了浏览器的限制。</div>
+      <div>
+        文件大小理论不限制，但文件过大，浏览器可能无法读取。
+      </div>
     </div>
     <div class="result">
       <div v-for="(n, i) in resultList" :key="i">
@@ -265,6 +267,10 @@ export default {
               that.$message.error("加密失败，请稍后再试！");
             });
         };
+
+        fr.onerror = () => {
+          that.$message.error("文件读取失败，可能由于文件过大");
+        };
         //read the file as buffer
         fr.readAsArrayBuffer(this.file);
       }
@@ -366,6 +372,11 @@ export default {
               that.loading.close();
             });
         };
+
+        fr.onerror = () => {
+          that.$message.error("文件读取失败，可能由于文件过大");
+        };
+
         fr.readAsArrayBuffer(that.file); //read the file as buffer
       }
     },
