@@ -24,7 +24,8 @@
           "
         />
         <div class="file-placeholder">
-          {{ fileInfo }} <span v-show="fileSize">{{ fileSize }}</span>
+          <span class="file-name">{{ fileInfo }}</span>
+          <span class="file-size" v-show="fileSize">{{ fileSize }}</span>
         </div>
       </label>
     </div>
@@ -425,9 +426,7 @@ export default {
     color: #606266;
     font-size: 1rem;
     text-align: left;
-    overflow: hidden;
-    white-space: nowrap;
-    word-wrap: break-word;
+
     cursor: pointer;
     border: 1px solid #dcdfe6;
     border-radius: 4px;
@@ -453,9 +452,17 @@ export default {
     &:hover {
       border-color: #c0c4cc;
     }
-    span {
+    .file-name {
+      overflow: hidden;
+      display: inline-block;
+      width: calc(100% - 164px);
+      white-space: nowrap;
+      word-wrap: break-word;
+      text-overflow: ellipsis;
+    }
+    .file-size {
+      position: absolute;
       color: #28a745;
-      vertical-align: middle;
     }
   }
 }
