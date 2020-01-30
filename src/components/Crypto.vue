@@ -488,6 +488,6 @@ export default {
   }
 }
 .result {
-  margin: 40px 0;
+  margin-top: 40px;
 }
 </style>

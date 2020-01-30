@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <h1 class="logo">YOSE.FUN</h1>
-    <p class="slogan">免费的加密/解密网站</p>
+    <h1 class="logo"></h1>
+    <p class="slogan">免费的文件加密/解密</p>
     <div class="lead">
       已经完成对<span>{{ count }}</span
       >个文件的加密/解密
@@ -10,10 +10,7 @@
     <div class="dec">
       <p>快速、安全、无服务器，从不上传文件到服务器。</p>
       <p>
-        使用浏览器WebCryptoAPI中的AES-256-GCM算法提供安全的文件加密。
-      </p>
-      <p>
-        导入文件，输入解密密钥或自动生成一个，加密后您的加密文件就可以下载了。
+        浏览器WebCryptoAPI中的AES-256-GCM算法提供加密。
       </p>
     </div>
   </div>
@@ -56,17 +53,16 @@ body {
   font-size: 1rem;
 }
 .logo {
-  font-size: 3.5rem;
-  margin: 20px 0;
-  // text-shadow: 5px 5px 5px #1e334a;
+  margin: 0;
   color: #409eff;
   font-style: italic;
 }
 .slogan {
-  font-size: 1.25rem;
+  font-size: 2rem;
   font-weight: 300;
-  margin-bottom: 0;
   color: #409eff;
+  margin: 1rem 0;
+  font-weight: 800;
 }
 .lead {
   margin: 1.25rem 0;
@@ -84,7 +80,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   max-width: 540px;
   margin: 0 auto;
-  margin-bottom: 128px;
+  margin-bottom: 50px;
+  padding: 10px;
 }
 .dec {
   font-size: 14px;
