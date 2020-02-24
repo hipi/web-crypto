@@ -1,3 +1,3 @@
 module.exports = {
-  publicPath: "https://cdn.jsdelivr.net/gh/cyea/distribute@gh-pages/"
+  publicPath: "https://cdn.jsdelivr.net/gh/cyea/web-crypto@gh-pages/"
 };
