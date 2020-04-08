@@ -2,10 +2,11 @@
   <div id="app">
     <h1 class="logo"></h1>
     <p class="slogan">免费的文件加密/解密</p>
-    <div class="lead">
+    <!--<div class="lead">
       已经完成对<span>{{ count }}</span
       >个文件的加密/解密
     </div>
+    -->
     <Crypto />
     <div class="dec">
       <p>快速、安全、无服务器，从不上传文件到服务器。</p>
