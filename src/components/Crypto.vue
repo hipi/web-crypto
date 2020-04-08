@@ -24,16 +24,12 @@
           "
         />
         <div class="file-placeholder">
-          {{ fileInfo }} <span v-show="fileSize">{{ fileSize }}</span>
+          <span class="file-name">{{ fileInfo }}</span>
+          <span class="file-size" v-show="fileSize">{{ fileSize }}</span>
         </div>
       </label>
     </div>
-    <el-input
-      @input="keyCheckMeter"
-      class="input-key"
-      placeholder="输入解密所需的密码"
-      v-model="dKey"
-    >
+    <el-input class="input-key" placeholder="输入解密所需的密码" v-model="dKey">
       <el-tooltip
         slot="append"
         effect="dark"
@@ -61,12 +57,14 @@
       >
     </div>
     <div class="dangerInfo">
-      <div>文件大小理论不限制，但为了性能，建议不超 <span>2G</span> 。</div>
+      <div>
+        快速、安全、无服务器，完全本地加解密。
+      </div>
       <div>
         请务必<span>保存好您的密码</span>，一旦丢失，您将无法解密您的文件。
       </div>
       <div>
-        文件<span>不会上传服务器</span>，所有的操作都只在您的<span>本地浏览器</span>进行。
+        文件大小理论不限制，但文件过大，浏览器可能无法读取。
       </div>
     </div>
     <div class="result">
@@ -143,8 +141,19 @@ export default {
         fileSize = nApprox.toFixed(2) + " " + aMultiples[nMultiple];
       }
       this.fileSize = fileSize || "";
+
+      // 判断文件名是否是解密的
+      let reg = /Encrypted#[^ \f\n\r\t\v#]*#/;
+      if (this.fileInfo.match(reg)) {
+        this.dKey = this.fileInfo
+          .match(reg)[0]
+          .replace("Encrypted#", "")
+          .replace("#", "");
+      }
     },
     keyCheckMeter(val) {
+      val = val.replace(/#/g, "");
+      this.dKey = val;
       let result = zxcvbn(val);
       this.percentage = result.score * 25;
       let strength = {
@@ -159,7 +168,6 @@ export default {
     refreshKey() {
       const dKey = generateKey();
       this.dKey = dKey;
-      this.keyCheckMeter(dKey);
     },
     resetForm() {
       this.dKey = "";
@@ -167,7 +175,7 @@ export default {
       this.file = null;
       this.fileInfo = "选择文件进行加密/解密";
       this.fileSize = "";
-      this.keyCheckMeter("");
+
       this.percentageText = "";
     },
     importSecretKey(password) {
@@ -209,7 +217,7 @@ export default {
         type: "application/octet-stream"
       }); // meaning download this file
       const blobStr = URL.createObjectURL(blob); //create a url for blob
-      this.resultList.push({ nameStr, type, dKey, blobStr });
+      this.resultList.unshift({ nameStr, type, dKey, blobStr });
     },
     async encryptFile() {
       const that = this;
@@ -262,6 +270,10 @@ export default {
             .catch(function() {
               that.$message.error("加密失败，请稍后再试！");
             });
+        };
+
+        fr.onerror = () => {
+          that.$message.error("文件读取失败，可能由于文件过大");
         };
         //read the file as buffer
         fr.readAsArrayBuffer(this.file);
@@ -340,9 +352,15 @@ export default {
             )
             .then(function(decrypted) {
               //returns an ArrayBuffer containing the decrypted data
+              // 判断文件名是否是解密的
+              let reg = /Encrypted#[^ \f\n\r\t\v#]*#/;
+              let FILE_NAME = that.file.name;
+              if (FILE_NAME.match(reg)) {
+                FILE_NAME = FILE_NAME.replace(FILE_NAME.match(reg)[0], "");
+              }
 
               that.processFinished(
-                that.file.name.replace("Encrypted-", ""),
+                FILE_NAME,
                 [new Uint8Array(decrypted)],
                 2,
                 that.dKey
@@ -355,8 +373,14 @@ export default {
             })
             .catch(function() {
               that.$message.error("您的解密密钥是错误的!");
+              that.loading.close();
             });
         };
+
+        fr.onerror = () => {
+          that.$message.error("文件读取失败，可能由于文件过大");
+        };
+
         fr.readAsArrayBuffer(that.file); //read the file as buffer
       }
     },
@@ -378,7 +402,10 @@ export default {
         });
     }
   },
-  mounted() {}
+  mounted() {},
+  watch: {
+    dKey: "keyCheckMeter"
+  }
 };
 </script>
 
@@ -402,9 +429,7 @@ export default {
     color: #606266;
     font-size: 1rem;
     text-align: left;
-    overflow: hidden;
-    white-space: nowrap;
-    word-wrap: break-word;
+
     cursor: pointer;
     border: 1px solid #dcdfe6;
     border-radius: 4px;
@@ -430,9 +455,17 @@ export default {
     &:hover {
       border-color: #c0c4cc;
     }
-    span {
+    .file-name {
+      overflow: hidden;
+      display: inline-block;
+      width: calc(100% - 164px);
+      white-space: nowrap;
+      word-wrap: break-word;
+      text-overflow: ellipsis;
+    }
+    .file-size {
+      position: absolute;
       color: #28a745;
-      vertical-align: middle;
     }
   }
 }
@@ -473,6 +506,6 @@ export default {
   }
 }
 .result {
-  margin: 40px 0;
+  margin-top: 40px;
 }
 </style>
