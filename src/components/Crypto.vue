@@ -1,128 +1,85 @@
 <template>
   <div class="crypto">
-    <div class="custom-file">
-      <label>
+    <Spin :spinning="loading">
+      <label class="file-upload">
         <input
           @change="uploadFile"
           ref="customFile"
           type="file"
           :class="[isDragOver ? 'over' : '', 'custom-file-input']"
-          @dragenter="
-            () => {
-              isDragOver = true;
-            }
-          "
-          @dragleave="
-            () => {
-              isDragOver = false;
-            }
-          "
-          @drop="
-            () => {
-              isDragOver = false;
-            }
-          "
+          @dragenter="isDragOver = true"
+          @dragleave="isDragOver = false"
+          @drop="isDragOver = false"
         />
         <div class="file-placeholder">
-          {{ fileInfo }} <span v-show="fileSize">{{ fileSize }}</span>
+          <span class="file-name">{{ fileInfo }}</span>
+          <span class="file-size" v-show="fileSize">{{ fileSize }}</span>
+          <span class="file-select">选择文件</span>
         </div>
       </label>
-    </div>
-    <el-input
-      @input="keyCheckMeter"
-      class="input-key"
-      placeholder="输入解密所需的密码"
-      v-model="dKey"
-    >
-      <el-tooltip
-        slot="append"
-        effect="dark"
-        content="自动生成一个安全密钥"
-        placement="left"
-      >
-        <el-button @click="refreshKey" icon="el-icon-refresh"></el-button>
-      </el-tooltip>
-    </el-input>
-    <div class="key-check">
-      <p>密码强度：{{ percentageText }}</p>
-      <el-progress
-        :percentage="percentage"
-        :stroke-width="20"
-        :show-text="false"
-        status="warning"
-        stroke-linecap="square"
-      ></el-progress>
-    </div>
-    <div class="operate">
-      <el-button @click="encryptFile" type="primary" plain>加密</el-button>
-      <el-button @click="decryptFile" type="success" plain>解密</el-button>
-      <el-button @click="resetForm" plain v-if="resetShow" type="danger"
-        >重置</el-button
-      >
-    </div>
-    <div class="dangerInfo">
-      <div>文件大小理论不限制，但为了性能，建议不超 <span>2G</span> 。</div>
-      <div>
-        请务必<span>保存好您的密码</span>，一旦丢失，您将无法解密您的文件。
+      <div class="key">
+        <input
+          v-model.trim="dKey"
+          placeholder="请输入解密密码"
+          class="key-input"
+          spellcheck="false"
+        />
+        <button title="自动生成密码" @click="refreshKey" class="key-btn">
+          <img class="key-refresh" src="./../assets/refresh.svg" alt="" />
+        </button>
       </div>
-      <div>
-        文件<span>不会上传服务器</span>，所有的操作都只在您的<span>本地浏览器</span>进行。
+      <div class="key-check">
+        <div>密码强度：{{ percentageText }}</div>
+        <Process :percent="percentage" :strokeWidth="10" />
       </div>
-    </div>
+      <div class="operate">
+        <button @click="encryptFile" class="primary">加密</button>
+        <button @click="decryptFile" class="success">解密</button>
+        <button @click="resetForm" v-if="resetShow" class="danger">重置</button>
+      </div>
+    </Spin>
     <div class="result">
-      <div v-for="(n, i) in resultList" :key="i">
-        <resultEncryption
-          v-if="n.type === 1"
-          :dKey="n.dKey"
-          :nameStr="n.nameStr"
-          :blobStr="n.blobStr"
-        />
-        <resultDecryption
-          v-show="n.type === 2"
-          :nameStr="n.nameStr"
-          :blobStr="n.blobStr"
-        />
-      </div>
+      <Result :list="resultList" />
     </div>
   </div>
 </template>
 
 <script>
+import { str2ab, generateKey } from "./../utils";
 import zxcvbn from "zxcvbn";
-import resultEncryption from "./result-encryption";
-import resultDecryption from "./result-decryption";
-import { str2ab, generateKey } from "@/utils";
-import { DEC } from "@/config";
+import { DEC } from "./../config";
+import Result from "./Result.vue";
+import Process from "./Process.vue";
+import Spin from "./Spin.vue";
 export default {
-  name: "Crypto",
-  components: { resultEncryption, resultDecryption },
+  components: { Process, Result, Spin },
   data() {
     return {
       isDragOver: false,
       isHaveFile: false,
       file: null,
-      fileInfo: "选择文件进行加密/解密",
+      fileInfo: "点击选择或拖入文件进行加密/解密",
       fileSize: null,
       dKey: "",
       percentage: 0,
       percentageText: "",
       resultList: [],
-      loading: null
+      loading: false,
     };
   },
   computed: {
     resetShow() {
       return this.isHaveFile || this.dKey;
-    }
+    },
   },
   methods: {
     addEnterClass() {
       this.isDragOver = true;
     },
-    dragleave() {},
     uploadFile(e) {
       const file = e.target.files[0];
       if (!file) {
+        this.file = "";
         this.isHaveFile = false;
         this.fileInfo = "选择文件进行加密/解密";
         this.fileSize = "";
@@ -143,47 +100,65 @@ export default {
         fileSize = nApprox.toFixed(2) + " " + aMultiples[nMultiple];
       }
       this.fileSize = fileSize || "";
+
+      // 判断文件名是否是解密的
+      let reg = /Encrypted#[^ \f\n\r\t\v#]*#/;
+      if (this.fileInfo.match(reg)) {
+        this.dKey = this.fileInfo
+          .match(reg)[0]
+          .replace("Encrypted#", "")
+          .replace("#", "");
+      } else {
+        this.dKey = "";
+      }
     },
     keyCheckMeter(val) {
-      let result = zxcvbn(val);
-      this.percentage = result.score * 25;
+      val = val.replace(/#/g, "");
+      this.dKey = val;
       let strength = {
-        0: "非常糟糕",
         1: "糟糕",
-        2: "一般",
-        3: "强",
-        4: "非常强"
+        2: "还行",
+        3: "一般",
+        4: "挺强",
+        5: "很强",
       };
-      this.percentageText = strength[result.score];
+      if (val) {
+        let result = zxcvbn(val);
+        const score = result.score + 1;
+        this.percentage = score * 20;
+        this.percentageText = strength[score];
+      } else {
+        this.percentage = 0;
+        this.percentageText = "";
+      }
     },
     refreshKey() {
       const dKey = generateKey();
       this.dKey = dKey;
-      this.keyCheckMeter(dKey);
     },
     resetForm() {
       this.dKey = "";
       this.$refs.customFile.value = "";
+      this.isHaveFile = false;
       this.file = null;
       this.fileInfo = "选择文件进行加密/解密";
       this.fileSize = "";
-      this.keyCheckMeter("");
+      this.percentage = 0;
       this.percentageText = "";
     },
     importSecretKey(password) {
-      let rawPassword = str2ab(password); // convert the password entered in the input to an array buffer
+      let rawPassword = str2ab(password);
       return window.crypto.subtle.importKey(
-        "raw", //raw
-        rawPassword, // array buffer password
+        "raw",
+        rawPassword,
         {
-          name: DEC.algoName1
-        }, //the algorithm you are using
-        false, //whether the derived key is extractable
-        DEC.perms1 //limited to the option deriveKey
+          name: DEC.algoName1,
+        },
+        false,
+        DEC.perms1
       );
     },
     async deriveEncryptionSecretKey() {
-      //derive the secret key from a master key.
       let getSecretKey = await this.importSecretKey(this.dKey);
       return window.crypto.subtle.deriveKey(
         {
@@ -191,106 +166,80 @@ export default {
           salt: DEC.salt,
           iterations: DEC.itr,
           hash: {
-            name: DEC.hash
-          }
+            name: DEC.hash,
+          },
         },
-        getSecretKey, //your key from importKey
+        getSecretKey,
         {
-          //the key type you want to create based on the derived bits
           name: DEC.algoName2,
-          length: DEC.algoLength
+          length: DEC.algoLength,
         },
-        false, //whether the derived key is extractable
-        DEC.perms2 //limited to the options encrypt and decrypt
+        false,
+        DEC.perms2
       );
     },
     processFinished(nameStr, data, type, dKey) {
       const blob = new Blob(data, {
-        type: "application/octet-stream"
-      }); // meaning download this file
-      const blobStr = URL.createObjectURL(blob); //create a url for blob
-      this.resultList.push({ nameStr, type, dKey, blobStr });
+        type: "application/octet-stream",
+      });
+      const blobStr = URL.createObjectURL(blob);
+      this.resultList.unshift({ nameStr, type, dKey, blobStr });
     },
     async encryptFile() {
       const that = this;
-      //check if file and password inputs are entered
+
       if (!that.file || !that.dKey) {
-        that.$message.error("请上传文件或输入密码");
+        alert("请上传文件或输入密码");
       } else {
-        const derivedKey = await that.deriveEncryptionSecretKey(); //requiring the key
-
-        const fr = new FileReader(); //request a file read
-
+        const derivedKey = await that.deriveEncryptionSecretKey();
+        const fr = new FileReader();
         fr.onloadstart = async () => {
-          // loading
-          that.loading = this.$loading({
-            lock: true,
-            text: "Loading",
-            spinner: "el-icon-loading",
-            background: "rgba(0, 0, 0, 0.7)"
-          });
+          that.loading = true;
         };
-
         fr.onload = async () => {
-          //load
-          const iv = window.crypto.getRandomValues(new Uint8Array(16)); //generate a random iv
-          const content = new Uint8Array(fr.result); //encoded file content
-          // encrypt the file
+          const iv = window.crypto.getRandomValues(new Uint8Array(16));
+          const content = new Uint8Array(fr.result);
           await window.crypto.subtle
             .encrypt(
               {
                 iv,
-                name: DEC.algoName2
+                name: DEC.algoName2,
               },
               derivedKey,
               content
             )
-            .then(function(encrypted) {
-              //returns an ArrayBuffer containing the encrypted data
+            .then(function (encrypted) {
               that.processFinished(
                 "Encrypted#" + that.dKey + "#" + that.file.name,
                 [DEC.signature, iv, DEC.salt, new Uint8Array(encrypted)],
                 1,
                 that.dKey
               );
-              //create the new file buy adding and iv and content
-              //console.log("file has been successuflly encrypted");
-              that.loading.close();
-              that.resetForm(); // reset file and key inputs when done
-              that.addCount("encrypt");
+              that.loading = false;
+              that.resetForm();
             })
-            .catch(function() {
-              that.$message.error("加密失败，请稍后再试！");
+            .catch(function () {
+              alert("加密失败，请稍后再试！");
             });
         };
-        //read the file as buffer
+        fr.onerror = () => {
+          alert("文件读取失败，可能由于文件过大");
+        };
         fr.readAsArrayBuffer(this.file);
       }
     },
     async decryptFile() {
       const that = this;
-
       if (!that.file || !that.dKey) {
-        that.$message.error("请上传文件或输入密码");
+        alert("请上传文件或输入密码");
       } else {
-        const fr = new FileReader(); //request a file read
-
+        const fr = new FileReader();
         fr.onloadstart = () => {
-          // loading
-          that.loading = this.$loading({
-            lock: true,
-            text: "Loading",
-            spinner: "el-icon-loading",
-            background: "rgba(0, 0, 0, 0.7)"
-          });
+          that.loading = true;
         };
 
         fr.onload = async () => {
-          //load
-
           const deriveDecryptionSecretKey = async () => {
-            //derive the secret key from a master key.
-
             let getSecretKey = await that.importSecretKey(that.dKey);
 
             return window.crypto.subtle.deriveKey(
@@ -301,178 +250,185 @@ export default {
                     DEC.signature.length + 16,
                     DEC.signature.length + 32
                   )
-                ), //get salt from encrypted file.
+                ),
                 iterations: DEC.itr,
                 hash: {
-                  name: DEC.hash
-                }
+                  name: DEC.hash,
+                },
               },
-              getSecretKey, //your key from importKey
+              getSecretKey,
               {
-                //the key type you want to create based on the derived bits
                 name: DEC.algoName2,
-                length: DEC.algoLength
+                length: DEC.algoLength,
               },
-              false, //whether the derived key is extractable
-              DEC.perms2 //limited to the options encrypt and decrypt
+              false,
+              DEC.perms2
             );
           };
 
-          //console.log(fr.result);
-          const derivedKey = await deriveDecryptionSecretKey(); //requiring the key
+          const derivedKey = await deriveDecryptionSecretKey();
 
           const iv = new Uint8Array(
             fr.result.slice(DEC.signature.length, DEC.signature.length + 16)
-          ); //take out encryption iv
-
+          );
           const content = new Uint8Array(
             fr.result.slice(DEC.signature.length + 32)
-          ); //take out encrypted content
-
+          );
           await window.crypto.subtle
             .decrypt(
               {
                 iv,
-                name: DEC.algoName2
+                name: DEC.algoName2,
               },
               derivedKey,
               content
             )
-            .then(function(decrypted) {
-              //returns an ArrayBuffer containing the decrypted data
-
+            .then(function (decrypted) {
+              // 判断文件名是否是解密的
+              let reg = /Encrypted#[^ \f\n\r\t\v#]*#/;
+              let FILE_NAME = that.file.name;
+              if (FILE_NAME.match(reg)) {
+                FILE_NAME = FILE_NAME.replace(FILE_NAME.match(reg)[0], "");
+              }
               that.processFinished(
-                that.file.name.replace("Encrypted-", ""),
+                FILE_NAME,
                 [new Uint8Array(decrypted)],
                 2,
                 that.dKey
               );
-              //create new file from the decrypted content
-              //console.log("file has been successuflly decrypted");
-              that.loading.close();
-              that.resetForm(); // reset file and key inputs when done
-              that.addCount("decrypt");
+              that.loading = false;
+              that.resetForm();
             })
-            .catch(function() {
-              that.$message.error("您的解密密钥是错误的!");
+            .catch(function () {
+              alert("您的解密密钥是错误的!");
+              that.loading = false;
             });
         };
-        fr.readAsArrayBuffer(that.file); //read the file as buffer
+        fr.onerror = () => {
+          alert("文件读取失败，可能由于文件过大");
+        };
+        fr.readAsArrayBuffer(that.file);
       }
     },
-    addCount(type) {
-      fetch("https://api.chenyeah.com/v1/addcriptocount", {
-        method: "post",
-        body: `type=${type}`,
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        }
-      })
-        .then(response => response.json())
-        .then(D => {
-          D.code === 0 ? (this.$parent.count = D.count) : "";
-          console.log(D);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
   },
-  mounted() {}
+  watch: {
+    dKey: "keyCheckMeter",
+  },
+  mounted() {},
 };
 </script>
 
 <style scoped lang="scss">
-.custom-file {
+.file-upload {
   position: relative;
-  margin-bottom: 20px;
+  display: block;
   .custom-file-input {
-    font-size: 1rem;
     position: absolute;
     z-index: 9999;
-    cursor: pointer;
-    height: 42px;
-    opacity: 0;
+    height: 100%;
     width: 100%;
+    opacity: 0;
+    cursor: pointer;
     &.over + .file-placeholder {
       background: #e9ecef;
+      .file-select {
+        background: #e9ecef;
+      }
     }
   }
   .file-placeholder {
     color: #606266;
     font-size: 1rem;
-    text-align: left;
-    overflow: hidden;
-    white-space: nowrap;
-    word-wrap: break-word;
     cursor: pointer;
     border: 1px solid #dcdfe6;
-    border-radius: 4px;
-    height: 40px;
-    line-height: 40px;
-    padding: 0 15px;
-    position: relative;
-    &::after {
-      content: "选择文件";
-      position: absolute;
-      display: block;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      height: 40px;
-      padding: 0 15px;
+    border-radius: 2px;
+    height: 42px;
+    line-height: 42px;
+    display: flex;
+    .file-name {
+      flex: 1;
+      padding: 0 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .file-size {
+      padding: 0 10px;
+      color: #28a745;
+    }
+    .file-select {
+      padding: 0 10px;
+      line-height: 40px;
       line-height: 40px;
       color: #495057;
       background-color: #f5f7fa;
       border-left: 1px solid #dcdfe6;
-      border-radius: 0 4px 4px 0;
-    }
-    &:hover {
-      border-color: #c0c4cc;
-    }
-    span {
-      color: #28a745;
-      vertical-align: middle;
     }
   }
 }
-.input-key {
-  ::v-deep .el-input__inner {
+.key {
+  margin-top: 20px;
+  display: flex;
+  .key-input {
+    flex: 1;
     font-size: 1rem;
-  }
-  ::v-deep .el-input__inner::-webkit-input-placeholder {
-    color: #606266;
-  }
-  ::v-deep .el-icon-refresh {
-    font-size: 1.5rem;
-  }
-}
-.key-check {
-  p {
-    text-align: left;
-  }
-  .el-progress {
-    margin-top: 10px;
-    ::v-deep .el-progress-bar__innerText {
+    height: 42px;
+    border: 1px solid #dcdfe6;
+    border-radius: 2px 0 0 2px;
+    &::-webkit-input-placeholder {
       color: #606266;
     }
+    padding: 0 10px;
   }
+  .key-btn {
+    width: 85px;
+    padding: 0 10px;
+    color: #495057;
+    height: 42px;
+    background-color: #f5f7fa;
+    border: 1px solid #dcdfe6;
+    border-left: none;
+    border-radius: 0 2px 2px 0;
+    cursor: pointer;
+    &:hover {
+      background-color: #f4f4f4;
+    }
+    .key-refresh {
+      width: 20px;
+    }
+  }
+}
+
+.key-check {
+  margin-top: 20px;
 }
 .operate {
   margin-top: 20px;
-}
-.dangerInfo {
-  margin: 20px 0;
-  color: red;
-  font-size: 12px;
-  div {
-    margin: 4px 0;
-    span {
-      text-decoration: underline;
+  button {
+    width: 80px;
+    height: 40px;
+    border-radius: 2px;
+    border: 1px solid;
+    outline: none;
+    cursor: pointer;
+    & + button {
+      margin-left: 10px;
+    }
+    &.primary {
+      color: #409eff;
+      background: #ecf5ff;
+      border-color: #b3d8ff;
+    }
+    &.success {
+      color: #67c23a;
+      background: #f0f9eb;
+      border-color: #c2e7b0;
+    }
+    &.danger {
+      color: #f56c6c;
+      background: #fef0f0;
+      border-color: #fbc4c4;
     }
   }
-}
-.result {
-  margin: 40px 0;
 }
 </style>

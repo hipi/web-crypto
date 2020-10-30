@@ -1,4 +1,6 @@
-# web-crypto
+![GitHub Actions status](https://github.com/cyea/web-crypto/workflows/gh-pages/badge.svg)
+![GitHub Actions status](https://github.com/cyea/web-crypto/workflows/CodeQL/badge.svg)
+
 
 ## 开发
 
