@@ -49,7 +49,7 @@ export default {
   word-break: break-all;
   border-radius: 4px;
   margin: 10px 0;
-  padding: 20px;
+  padding: 10px;
   box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.1);
   .file-name {
     color: #28a745;
