@@ -7,11 +7,16 @@
         </a>
         <strong>{{ resultType[n.type] }}成功</strong>
         <div class="btn-group">
-          <a class="download-link" :href="n.blobStr" :download="n.nameStr">
+          <a
+            class="download-link"
+            target="_blank"
+            :href="n.blobStr"
+            :download="n.nameStr"
+          >
             点击下载已经{{ resultType[n.type] }}的文件
           </a>
           <span class="decryption-key" v-if="n.type === 1">
-            解密密钥 :
+            密钥 :
             <span> {{ n.dKey }}</span>
           </span>
         </div>
@@ -52,9 +57,11 @@ export default {
   }
   .btn-group {
     margin-top: 10px;
-
+    .download-link {
+      user-select: none;
+    }
     .decryption-key {
-      margin-left: 20px;
+      margin-left: 10px;
       span {
         color: #28a745;
       }

@@ -20,6 +20,7 @@
       <div class="key">
         <input
           v-model.trim="dKey"
+          type="text"
           placeholder="请输入解密密码"
           class="key-input"
           spellcheck="false"
