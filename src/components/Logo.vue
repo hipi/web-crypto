@@ -1,5 +1,5 @@
 <template>
-  <div class="logo"><img src="./../assets/logo.svg" /></div>
+  <div class="logo"><img src="/logo.svg" /></div>
   <div class="title">加密狗在线文件加密</div>
   <p class="slogan">快速、安全、免费、完全本地的文件加密</p>
 </template>
