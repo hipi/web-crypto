@@ -15,6 +15,13 @@ export default {
     Main,
     Footer,
   },
+  mounted() {
+    console.log(
+      "%c ",
+      "padding:180px 300px;background:url('https://img04.sogoucdn.com/app/a/100520146/00e63964fd987b497ee2acaa4023c28c') no-repeat"
+    );
+    console.log("恭喜你发现了这个彩蛋！！！");
+  },
 };
 </script>
 <style lang="scss">
