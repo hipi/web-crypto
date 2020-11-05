@@ -406,7 +406,7 @@ export default {
 .operate {
   margin-top: 20px;
   button {
-    width: 80px;
+    width: 100px;
     height: 40px;
     border-radius: 2px;
     border: 1px solid;
