@@ -4,7 +4,7 @@
       <div class="dec">
         <span class="title">友情链接:</span>
         <a target="_blank" href="//chenyeah.com"> 羽叶 </a>
-        <a target="_blank" href="//dc4.cn"> DC4网址缩短 </a>
+        <a target="_blank" href="//dc4.cn"> 网址缩短 </a>
         <a target="_blank" href="//music.elem.fun"> 元素音乐 </a>
       </div>
     </section>
