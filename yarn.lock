@@ -2733,8 +2733,8 @@ vary@^1.1.2:
 
 vite@^1.0.0-rc.9:
   version "1.0.0-rc.9"
-  resolved "https://registry.npm.taobao.org/vite/download/vite-1.0.0-rc.9.tgz#63621a39cf36fe9a6dccafdb11360a5ebbdb2663"
-  integrity sha1-Y2IaOc82/pptzK/bETYKXrvbJmM=
+  resolved "https://registry.yarnpkg.com/vite/-/vite-1.0.0-rc.9.tgz#63621a39cf36fe9a6dccafdb11360a5ebbdb2663"
+  integrity sha512-u0PT2sKMes2RtE5rZsLY0nFm6kEmce7IhVRWKFXmrsjn0MBOCNEi+S6iNnJDmsj1nzvU2dMZ5MHhFyXIqTgjzA==
   dependencies:
     "@babel/parser" "^7.12.3"
     "@koa/cors" "^3.1.0"
