@@ -1,15 +1,13 @@
 <template>
-  <div class="wrapper">
-    <Main></Main>
-  </div>
+  <Crypto />
 </template>
 
 <script>
-import Main from "./components/Main.vue";
+import Crypto from "./components/Crypto.vue";
 export default {
   name: "App",
   components: {
-    Main,
+    Crypto,
   },
 };
 </script>
