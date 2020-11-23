@@ -377,6 +377,7 @@ header {
   width: 100%;
 }
 
+/* logo */
 .logo-wrap .logo {
   text-align: center;
 }
@@ -400,6 +401,11 @@ header {
   margin-top: 0;
   margin-bottom: 20px;
   text-align: center;
+}
+
+/* app */
+#app{
+  min-height: 228px;
 }
 
 /* 提示信息 */
