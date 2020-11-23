@@ -134,19 +134,12 @@ sup {
   top: -0.5em;
 }
 a {
-  color: #1890ff;
   text-decoration: none;
   background-color: transparent;
   outline: none;
   cursor: pointer;
   transition: color 0.3s;
   -webkit-text-decoration-skip: objects;
-}
-a:hover {
-  color: #40a9ff;
-}
-a:active {
-  color: #096dd9;
 }
 a:active,
 a:hover {
@@ -314,3 +307,63 @@ mark {
   background: #1890ff;
 }
 
+
+
+
+/* 项目 */
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  height: 60px;
+}
+
+#app {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 10px;
+  width: 100%;
+}
+
+.footer {
+  margin-top: auto;
+  font-size: 14px;
+  width: 100%;
+  background-color: #f8f9fa;
+  padding: 10px;
+}
+
+.footer .link {
+  max-width: 600px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.footer .link a {
+  text-decoration: none;
+  color: #666;
+  margin: 0 5px;
+}
+
+.footer .link a:hover {
+  color: #333;
+  text-decoration: underline;
+}
+
+.footer .copyright {
+  max-width: 600px;
+  margin: 0 auto;
+  width: 100%;
+  font-size: 12px;
+  line-height: 2;
+  color: #999;
+}
+
+.footer .copyright a {
+  margin-right: 10px;
+  text-decoration: none;
+  color: #999;
+}
