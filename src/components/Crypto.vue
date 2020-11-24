@@ -46,8 +46,7 @@
 </template>
 
 <script>
-import { str2ab, generateKey } from "./../utils";
-import zxcvbn from "zxcvbn";
+import { str2ab, generateKey, checkPassWord } from "./../utils";
 import { DEC } from "./../config";
 import Result from "./Result.vue";
 import Process from "./Process.vue";
@@ -124,9 +123,8 @@ export default {
         5: "很强",
       };
       if (val) {
-        let result = zxcvbn(val);
-        const score = result.score + 1;
-        this.percentage = score * 20;
+        const score = checkPassWord(val) + 1;
+        this.percentage = score * 25;
         this.percentageText = strength[score];
       } else {
         this.percentage = 0;
