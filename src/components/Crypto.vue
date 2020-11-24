@@ -339,7 +339,7 @@ export default {
   }
   .file-placeholder {
     color: #606266;
-    font-size: 14px;
+    font-size: 16px;
     cursor: pointer;
     border: 1px solid #dcdfe6;
     border-radius: 2px;
@@ -372,7 +372,7 @@ export default {
   display: flex;
   .key-input {
     flex: 1;
-    font-size: 14px;
+    font-size: 16px;
     height: 42px;
     border: 1px solid #dcdfe6;
     border-radius: 2px 0 0 2px;
