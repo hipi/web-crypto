@@ -388,16 +388,16 @@ header {
 }
 
 .logo-wrap .title {
-  font-size: 1.5rem;
+  font-size: 16px;
   color: #298afc;
   text-align: center;
   margin-bottom: 10px;
 }
 
 .logo-wrap .slogan {
-  font-size: 1rem;
+  font-size: 14px;
   color: #999;
-  margin: 1rem 0;
+  margin: 14px 0;
   margin-top: 0;
   margin-bottom: 20px;
   text-align: center;
