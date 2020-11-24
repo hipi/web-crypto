@@ -9,7 +9,7 @@ export const str2ab = (str) => {
   return buf;
 };
 
-export const generateKey = (limit = 12) => {
+export const generateKey = (limit = 4) => {
   const usedChars =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let keyArray = new Uint8Array(limit); //lenght of the key
@@ -20,10 +20,10 @@ export const generateKey = (limit = 12) => {
 
 export const checkPassWord = (value) => {
   // 0： 表示第一个级别 1：表示第二个级别 2：表示第三个级别
-  // 3： 表示第四个级别 4：表示第五个级别
+  // 3： 表示第四个级别
   let modes = 0;
   value = !value ? "" : value.toString();
-  if (!value || value.length < 6) {
+  if (!value || (value.length <= 4 && /^[0-9]*$/.test(value))) {
     //最初级别
     return modes;
   }
@@ -31,12 +31,8 @@ export const checkPassWord = (value) => {
     //如果用户输入的密码 包含了数字
     modes++;
   }
-  if (/[a-z]/.test(value)) {
-    //如果用户输入的密码 包含了小写的a到z
-    modes++;
-  }
-  if (/[A-Z]/.test(value)) {
-    //如果用户输入的密码 包含了大写的A到Z
+  if (/[A-Za-z]/.test(value)) {
+    //如果用户输入的密码 包含了小写的a到z 大写的A到Z 下划线
     modes++;
   }
   if (/\W/.test(value)) {

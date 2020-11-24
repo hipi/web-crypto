@@ -114,17 +114,18 @@ export default {
     },
     keyCheckMeter(val) {
       val = val.replace(/#/g, "");
+      // 去除汉字
+      // val = val.replace(/#|[\u4E00-\u9FA5]/g, "");
       this.dKey = val;
       let strength = {
         1: "糟糕",
-        2: "还行",
-        3: "一般",
-        4: "挺强",
-        5: "很强",
+        2: "一般",
+        3: "很强",
+        4: "超强",
       };
       if (val) {
         const score = checkPassWord(val) + 1;
-        this.percentage = score * 25;
+        this.percentage = score * 30;
         this.percentageText = strength[score];
       } else {
         this.percentage = 0;
