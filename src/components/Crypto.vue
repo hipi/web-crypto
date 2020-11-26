@@ -93,9 +93,9 @@ export default {
       for (
         let aMultiples = ["KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"],
           nMultiple = 0,
-          nApprox = nBytes / 1024;
+          nApprox = nBytes / 1000;
         nApprox > 1;
-        nApprox /= 1024, nMultiple++
+        nApprox /= 1000, nMultiple++
       ) {
         fileSize = nApprox.toFixed(2) + " " + aMultiples[nMultiple];
       }
