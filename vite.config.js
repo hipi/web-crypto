@@ -3,8 +3,8 @@ export default {
   plugins: [
     VitePWA({
       manifest: {
-        name: "顽狗",
-        short_name: "dogged",
+        name: "顽狗文件加密",
+        short_name: "顽狗",
         lang: "zh-CN",
         background_color: "#fff",
         theme_color: "#fff",
