@@ -8,10 +8,10 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [14.x]
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
@@ -19,10 +19,10 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Cache dependencies
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-node
 
@@ -33,8 +33,9 @@ jobs:
           cp ./public/CNAME ./dist/
 
       - name: Deploy
-        uses: peaceiris/actions-gh-pages@v2.10.1
-        env:
-          PERSONAL_TOKEN: ${{ secrets.GITHUB_ACTIONS }}
-          PUBLISH_BRANCH: gh-pages
-          PUBLISH_DIR: ./dist
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: ${{ secrets.GITHUB_ACTIONS }}
+          publish_branch: gh-pages
+          publish_dir: ./dist
+          commit_message: ${{ github.event.head_commit.message }}
