@@ -3,12 +3,12 @@ export default {
   plugins: [
     VitePWA({
       manifest: {
-        name: "顽狗文件加密",
-        short_name: "顽狗",
+        name: "顽狗文件在线加密",
+        short_name: "顽狗加密",
         lang: "zh-CN",
         background_color: "#fff",
         theme_color: "#fff",
-        description: "一款安全免费支持所有文件格式的文件加密软件",
+        description: "一款免费、安全、支持所有文件格式的文件在线加密服务",
         icons: [
           {
             src: "/images/touch_72x72.png",
