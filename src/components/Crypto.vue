@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { str2ab, generateKey, checkPassWord } from "./../utils";
+import { str2ab, generateKey, getFileSize, checkPassWord } from "./../utils";
 import { DEC } from "./../config";
 import Result from "./Result.vue";
 import Process from "./Process.vue";
@@ -89,17 +89,7 @@ export default {
       this.isHaveFile = true;
       this.fileInfo = file.name;
       let nBytes = file.size;
-      let fileSize = "";
-      for (
-        let aMultiples = ["KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"],
-          nMultiple = 0,
-          nApprox = nBytes / 1000;
-        nApprox > 1;
-        nApprox /= 1000, nMultiple++
-      ) {
-        fileSize = nApprox.toFixed(2) + " " + aMultiples[nMultiple];
-      }
-      this.fileSize = fileSize || "";
+      this.fileSize = getFileSize(nBytes);
 
       // 判断文件名是否是解密的
       let reg = /Encrypted#[^ \f\n\r\t\v#]*#/;

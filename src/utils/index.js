@@ -18,6 +18,29 @@ export const generateKey = (limit = 4) => {
   return String.fromCharCode.apply(null, keyArray);
 };
 
+export const getFileSize = (nBytes) => {
+  // 默认1024进制
+  let base = 1024;
+  if (/macintosh|Mac OS X/i.test(navigator.userAgent)) {
+    // 苹果 文件大小1000进制
+    base = 1000;
+  } else if (/Windows|win323/i.test(navigator.userAgent)) {
+    // Win 文件大小1024进制
+    base = 1024;
+  }
+  let fileSize = 0;
+  for (
+    let aMultiples = ["KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"],
+      nMultiple = 0,
+      nApprox = nBytes / base;
+    nApprox > 1;
+    nApprox /= base, nMultiple++
+  ) {
+    fileSize = Math.floor(nApprox * 100) / 100 + " " + aMultiples[nMultiple];
+  }
+  return fileSize;
+};
+
 export const checkPassWord = (value) => {
   // 0： 表示第一个级别 1：表示第二个级别 2：表示第三个级别
   // 3： 表示第四个级别
