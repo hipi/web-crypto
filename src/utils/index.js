@@ -21,10 +21,10 @@ export const generateKey = (limit = 4) => {
 export const getFileSize = (nBytes) => {
   // 默认1024进制
   let base = 1024;
-  if (/macintosh|Mac OS X/i.test(navigator.userAgent)) {
+  if (/macintosh|mac os x/i.test(navigator.userAgent)) {
     // 苹果 文件大小1000进制
     base = 1000;
-  } else if (/Windows|win323/i.test(navigator.userAgent)) {
+  } else if (/windows|win32/i.test(navigator.userAgent)) {
     // Win 文件大小1024进制
     base = 1024;
   }
