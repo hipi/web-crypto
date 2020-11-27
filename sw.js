@@ -114,7 +114,7 @@ define("./sw.js",['./workbox-3b8b670f'], function (workbox) { 'use strict';
     "revision": "c4b18348ea788a6e8162ce4ca2f43b78"
   }, {
     "url": "index.html",
-    "revision": "c011497f413ef1a5aa6102576a94389e"
+    "revision": "54ee8a00e8a512d756891891c69723eb"
   }], {});
 
 });
