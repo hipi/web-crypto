@@ -66,3 +66,27 @@ export const checkPassWord = (value) => {
   }
   return modes;
 };
+
+export const getDevice = () => {
+  const ua = navigator.userAgent;
+  return {
+    isIOS: !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),
+    isAndroid: ua.indexOf("Android") > -1 || ua.indexOf("Linux") > -1,
+    isIpP: 736 === window.screen.height && 414 === window.screen.width,
+    getKeyBoardHeightDefault: function () {
+      if (ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {
+        const screen = window.screen;
+        return 812 === screen.height && 375 === screen.width
+          ? 377
+          : 736 === screen.height && 414 === screen.width
+          ? 315
+          : 667 === screen.height && 375 === screen.width
+          ? 304
+          : 568 === screen.height && 320 === screen.width
+          ? 220
+          : 304;
+      }
+      return 304;
+    },
+  };
+};
