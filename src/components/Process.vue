@@ -25,6 +25,7 @@ export default {
     },
     strokeColor: {
       type: String,
+      default: "rgb(135, 208, 104)",
     },
   },
   data() {
@@ -71,11 +72,11 @@ export default {
   position: relative;
   border-radius: 100px;
   transition: all 0.4s cubic-bezier(0.08, 0.82, 0.17, 1) 0s;
-  background-image: linear-gradient(
+  /* background-image: linear-gradient(
     to right,
     rgb(16, 142, 233),
     rgb(135, 208, 104)
-  );
+  ); */
 }
 .progress-in::after {
   content: "";

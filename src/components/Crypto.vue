@@ -31,7 +31,11 @@
       </div>
       <div class="key-check">
         <div>密码强度：{{ percentageText }}</div>
-        <Process :percent="percentage" :strokeWidth="10" />
+        <Process
+          :percent="percentage"
+          :strokeWidth="10"
+          :strokeColor="percentageColor"
+        />
       </div>
       <div class="operate">
         <button @click="encryptFile" class="primary">加密</button>
@@ -63,6 +67,7 @@ export default {
       dKey: "",
       percentage: 0,
       percentageText: "",
+      percentageColor: "#b3d8ff",
       resultList: [],
       loading: false,
     };
@@ -107,19 +112,23 @@ export default {
       // 去除汉字
       // val = val.replace(/#|[\u4E00-\u9FA5]/g, "");
       this.dKey = val;
-      let strength = {
-        1: "糟糕",
-        2: "一般",
-        3: "很强",
-        4: "超强",
-      };
+      let strength = [
+        { key: 0, str: "糟糕", per: 10, color: "#f73131" },
+        { key: 1, str: "勉强", per: 30, color: "#f56c6c" },
+        { key: 2, str: "一般", per: 60, color: "#e6a23c" },
+        { key: 3, str: "很强", per: 90, color: "#87d068" },
+        { key: 4, str: "超强", per: 100, color: "#87d068" },
+      ];
       if (val) {
-        const score = checkPassWord(val) + 1;
-        this.percentage = score * 30;
-        this.percentageText = strength[score];
+        const score = checkPassWord(val);
+        const list = strength.find((item) => item.key === score);
+        this.percentage = list.per;
+        this.percentageText = list.str;
+        this.percentageColor = list.color;
       } else {
         this.percentage = 0;
         this.percentageText = "";
+        this.percentageColor = "#f5f5f5";
       }
     },
     refreshKey() {

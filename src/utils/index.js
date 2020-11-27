@@ -42,11 +42,9 @@ export const getFileSize = (nBytes) => {
 };
 
 export const checkPassWord = (value) => {
-  // 0： 表示第一个级别 1：表示第二个级别 2：表示第三个级别
-  // 3： 表示第四个级别
   let modes = 0;
   value = !value ? "" : value.toString();
-  if (!value || (value.length <= 4 && /^[0-9]*$/.test(value))) {
+  if (value.length <= 3 || (value.length <= 4 && /^[0-9]*$/.test(value))) {
     //最初级别
     return modes;
   }
@@ -54,7 +52,11 @@ export const checkPassWord = (value) => {
     //如果用户输入的密码 包含了数字
     modes++;
   }
-  if (/[A-Za-z]/.test(value)) {
+  if (/[a-z]/.test(value)) {
+    //如果用户输入的密码 包含了小写的a到z
+    modes++;
+  }
+  if (/[A-Z]/.test(value)) {
     //如果用户输入的密码 包含了小写的a到z 大写的A到Z 下划线
     modes++;
   }
