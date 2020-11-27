@@ -32,6 +32,11 @@ export default {
           },
         ],
       },
+      workbox: {
+        clientsClaim: true,
+        skipWaiting: true,
+        cleanupOutdatedCaches: true,
+      },
     }),
   ],
 };
