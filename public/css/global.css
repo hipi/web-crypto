@@ -471,3 +471,8 @@ header {
   text-decoration: none;
   color: #999;
 }
+@supports (bottom: env(safe-area-inset-bottom)) {
+	.footer {
+		margin-bottom: env(safe-area-inset-bottom);
+	}
+}
