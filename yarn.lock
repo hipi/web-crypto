@@ -4086,10 +4086,10 @@ vary@^1.1.2:
   resolved "https://registry.npm.taobao.org/vary/download/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
 
-vite-plugin-pwa@^0.1.5:
-  version "0.1.5"
-  resolved "https://registry.npm.taobao.org/vite-plugin-pwa/download/vite-plugin-pwa-0.1.5.tgz#df14fa3041639a2087391bef87e7fb9d449b322d"
-  integrity sha1-3xT6MEFjmiCHORvvh+f7nUSbMi0=
+vite-plugin-pwa@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.npm.taobao.org/vite-plugin-pwa/download/vite-plugin-pwa-0.1.7.tgz#3e13faf2d61b1f5a1b341f6b08f32216ffae1f55"
+  integrity sha1-PhP68tYbH1obNB9rCPMiFv+uH1U=
   dependencies:
     debug "^4.3.0"
     fast-glob "^3.2.4"
