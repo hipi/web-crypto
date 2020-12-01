@@ -30,7 +30,7 @@ module.exports = {
       },
     ],
   },
-  pworkbox: {
+  workbox: {
     clientsClaim: true,
     skipWaiting: true,
     cleanupOutdatedCaches: true,
