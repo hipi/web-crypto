@@ -81,7 +81,7 @@ if (!self.define) {
     });
   };
 }
-define("./sw.js",['./workbox-3b8b670f'], function (workbox) { 'use strict';
+define("./sw.js",['./workbox-c13cf909'], function (workbox) { 'use strict';
 
   /**
   * Welcome to your Workbox-powered service worker!
@@ -95,11 +95,8 @@ define("./sw.js",['./workbox-3b8b670f'], function (workbox) { 'use strict';
   * See https://goo.gl/2aRDsh
   */
 
-  self.addEventListener('message', event => {
-    if (event.data && event.data.type === 'SKIP_WAITING') {
-      self.skipWaiting();
-    }
-  });
+  workbox.skipWaiting();
+  workbox.clientsClaim();
   /**
    * The precacheAndRoute() method efficiently caches and responds to
    * requests for URLs in the manifest.
@@ -122,6 +119,7 @@ define("./sw.js",['./workbox-3b8b670f'], function (workbox) { 'use strict';
     "url": "index.html",
     "revision": "e6de52df8fc4b41991121eeafb569c9c"
   }], {});
+  workbox.cleanupOutdatedCaches();
 
 });
 //# sourceMappingURL=sw.js.map
