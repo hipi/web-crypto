@@ -81,7 +81,7 @@ if (!self.define) {
     });
   };
 }
-define("./sw.js",['./workbox-c13cf909'], function (workbox) { 'use strict';
+define("./sw.js",['./workbox-3b8b670f'], function (workbox) { 'use strict';
 
   /**
   * Welcome to your Workbox-powered service worker!
@@ -95,8 +95,11 @@ define("./sw.js",['./workbox-c13cf909'], function (workbox) { 'use strict';
   * See https://goo.gl/2aRDsh
   */
 
-  workbox.skipWaiting();
-  workbox.clientsClaim();
+  self.addEventListener('message', event => {
+    if (event.data && event.data.type === 'SKIP_WAITING') {
+      self.skipWaiting();
+    }
+  });
   /**
    * The precacheAndRoute() method efficiently caches and responds to
    * requests for URLs in the manifest.
@@ -110,10 +113,15 @@ define("./sw.js",['./workbox-c13cf909'], function (workbox) { 'use strict';
     "url": "_assets/style.3345a8d1.css",
     "revision": "c4b18348ea788a6e8162ce4ca2f43b78"
   }, {
+    "url": "css/global.css",
+    "revision": "8d7c5214e31c1b762a44f14ceda00664"
+  }, {
+    "url": "css/loading.css",
+    "revision": "937280b8d476a355a71557ee057a4ade"
+  }, {
     "url": "index.html",
-    "revision": "fb51a58da9d437f93ba1820bcbb32cb6"
+    "revision": "e6de52df8fc4b41991121eeafb569c9c"
   }], {});
-  workbox.cleanupOutdatedCaches();
 
 });
 //# sourceMappingURL=sw.js.map
