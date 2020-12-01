@@ -1,4 +1,3 @@
-const path = require("path");
 import { VitePWA } from "vite-plugin-pwa";
 export default {
   plugins: [
@@ -37,10 +36,6 @@ export default {
         clientsClaim: true,
         skipWaiting: true,
         cleanupOutdatedCaches: true,
-        include: [
-          path.resolve(__dirname, "public/favicon.ico"),
-          path.resolve(__dirname, "public/images"),
-        ],
       },
     }),
   ],
