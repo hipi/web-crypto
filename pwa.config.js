@@ -31,6 +31,7 @@ module.exports = {
     ],
   },
   workbox: {
+    mode: "production",
     clientsClaim: true,
     skipWaiting: true,
     cleanupOutdatedCaches: true,
