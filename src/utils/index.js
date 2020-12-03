@@ -19,8 +19,8 @@ export const generateKey = (limit = 4) => {
 };
 
 export const getFileSize = (nBytes) => {
-  // 默认1024进制
-  let base = 1024;
+  // 默认1000进制
+  let base = 1000;
   if (/macintosh|mac os x/i.test(navigator.userAgent)) {
     // 苹果 文件大小1000进制
     base = 1000;
