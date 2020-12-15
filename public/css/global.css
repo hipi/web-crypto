@@ -410,7 +410,7 @@ header {
 
 /* 提示信息 */
 .dangerInfo {
-  margin: 20px 0;
+  margin: 60px 0 20px;
   padding-top: 10px;
   color: #e6a23c;
   border-top: 1px dashed #dcdfe6;
