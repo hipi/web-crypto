@@ -59,11 +59,12 @@ export default {
     margin-top: 10px;
     .download-link {
       user-select: none;
+      color: #298afc;
     }
     .decryption-key {
       margin-left: 10px;
       span {
-        color: #28a745;
+        color: #f56c6c;
       }
     }
   }
