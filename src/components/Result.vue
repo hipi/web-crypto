@@ -7,14 +7,25 @@
         </a>
         <strong>{{ resultType[n.type] }}成功</strong>
         <div class="btn-group">
-          <a
-            class="download-link"
-            target="_blank"
-            :href="n.blobStr"
-            :download="n.nameStr"
-          >
-            点击下载已经{{ resultType[n.type] }}的文件
-          </a>
+          <template v-if="n.count > 0">
+            <a
+              class="download-link"
+              target="_blank"
+              :href="n.blobStr"
+              :download="n.nameStr"
+            >
+              <span>点击下载已经{{ resultType[n.type] }}的文件</span>
+            </a>
+            <span class="count">
+              <em>{{ n.count }}</em>
+              s
+            </span>
+          </template>
+
+          <span v-if="!n.count || n.count < 0" class="download-link error">
+            <span>下载链接已失效</span>
+          </span>
+
           <span class="decryption-key" v-if="n.type === 1">
             密钥 :
             <span> {{ n.dKey }}</span>
@@ -29,14 +40,34 @@
 export default {
   data() {
     return {
+      list: [],
       resultType: {
         1: "加密",
         2: "解密",
       },
     };
   },
-  props: {
-    list: Array,
+  methods: {
+    addList(list) {
+      const _this = this;
+      const newlist = {
+        ...list,
+        count: 30,
+        countFn: setInterval(function () {
+          newlist.count--;
+          if (newlist.count <= 0) {
+            clearInterval(newlist.countFn);
+            _this.destoryBlobUrl(newlist.blobStr);
+          }
+          _this.$forceUpdate();
+        }, 1000),
+      };
+      this.list.unshift(newlist);
+      console.log(this.list);
+    },
+    destoryBlobUrl(src) {
+      window.URL.revokeObjectURL(src);
+    },
   },
 };
 </script>
@@ -60,6 +91,17 @@ export default {
     .download-link {
       user-select: none;
       color: #298afc;
+      &.error {
+        color: #f56c6c;
+      }
+    }
+    .count {
+      display: inline-block;
+      margin: 0 4px;
+      color: #f56c6c;
+      em {
+        font-style: normal;
+      }
     }
     .decryption-key {
       margin-left: 10px;

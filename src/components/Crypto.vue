@@ -44,7 +44,7 @@
       </div>
     </Spin>
     <div class="result">
-      <Result :list="resultList" />
+      <Result ref="result" />
     </div>
   </div>
 </template>
@@ -68,7 +68,6 @@ export default {
       percentage: 0,
       percentageText: "",
       percentageColor: "#b3d8ff",
-      resultList: [],
       loading: false,
     };
   },
@@ -182,7 +181,14 @@ export default {
         type: "application/octet-stream",
       });
       const blobStr = URL.createObjectURL(blob);
-      this.resultList.unshift({ nameStr, type, dKey, blobStr });
+
+      const newlist = {
+        nameStr,
+        type,
+        dKey,
+        blobStr,
+      };
+      this.$refs.result.addList(newlist);
     },
     async encryptFile() {
       const that = this;
