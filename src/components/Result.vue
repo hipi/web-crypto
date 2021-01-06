@@ -63,7 +63,6 @@ export default {
         }, 1000),
       };
       this.list.unshift(newlist);
-      console.log(this.list);
     },
     destoryBlobUrl(src) {
       window.URL.revokeObjectURL(src);
