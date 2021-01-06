@@ -28,7 +28,7 @@ export const getFileSize = (nBytes) => {
     // Win 文件大小1024进制
     base = 1024;
   }
-  let fileSize = 0;
+  let fileSize = nBytes + " Bytes";
   for (
     let aMultiples = ["KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"],
       nMultiple = 0,
