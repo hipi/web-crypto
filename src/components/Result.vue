@@ -2,7 +2,7 @@
   <div class="result">
     <div v-for="(n, i) in list" :key="i">
       <div class="result-list">
-        <a :href="n.blobStr" :download="n.nameStr" class="file-name">
+        <a class="file-name">
           {{ n.nameStr }}
         </a>
         <strong>{{ resultType[n.type] }}成功</strong>
@@ -57,6 +57,7 @@ export default {
           newlist.count--;
           if (newlist.count <= 0) {
             clearInterval(newlist.countFn);
+            newlist.blobStr = "";
             _this.destoryBlobUrl(newlist.blobStr);
           }
           _this.$forceUpdate();
