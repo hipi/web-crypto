@@ -55,6 +55,7 @@ import { DEC } from "./../config";
 import Result from "./Result.vue";
 import Process from "./Process.vue";
 import Spin from "./Spin.vue";
+let FILE_READER = new FileReader();
 export default {
   components: { Process, Result, Spin },
   data() {
@@ -197,13 +198,12 @@ export default {
         alert("请上传文件或输入密码");
       } else {
         const derivedKey = await that.deriveEncryptionSecretKey();
-        const fr = new FileReader();
-        fr.onloadstart = async () => {
+        FILE_READER.onloadstart = async () => {
           that.loading = true;
         };
-        fr.onload = async () => {
+        FILE_READER.onload = async () => {
           const iv = window.crypto.getRandomValues(new Uint8Array(16));
-          const content = new Uint8Array(fr.result);
+          const content = new Uint8Array(FILE_READER.result);
           await window.crypto.subtle
             .encrypt(
               {
@@ -227,10 +227,10 @@ export default {
               alert("加密失败，请稍后再试！");
             });
         };
-        fr.onerror = () => {
+        FILE_READER.onerror = () => {
           alert("文件读取失败，可能由于文件过大");
         };
-        fr.readAsArrayBuffer(this.file);
+        FILE_READER.readAsArrayBuffer(this.file);
       }
     },
     async decryptFile() {
