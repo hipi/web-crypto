@@ -8,7 +8,6 @@ import refreshImg from "./../../assets/refresh.svg";
 function Crypto(props) {
   const [isDragOver, setIsDragOver] = useState(false);
   const [FILE, setFILE] = useState(null);
-  const [fileInputStatus, setFileInputStatus] = useState(false);
 
   const customFile = createRef();
 
@@ -27,7 +26,6 @@ function Crypto(props) {
   /* 重置表单 */
   const resetForm = () => {
     setFILE(null);
-    setFileInputStatus(false);
     setDkey("");
     setFileInfo("选择文件进行加密/解密");
     setFileSize("");
@@ -36,23 +34,21 @@ function Crypto(props) {
   };
 
   useEffect(() => {
-    if (!fileInputStatus) {
+    if (!FILE) {
       customFile.current.value = "";
     }
-  });
+  }, [FILE]);
 
   /* 上传文件 */
   const uploadFile = (e) => {
     const inputFile = e.target.files[0];
     if (!inputFile) {
       setFILE(null);
-      setFileInputStatus(false);
       setFileInfo("选择文件进行加密/解密");
       setFileSize("");
       return false;
     }
     setFILE(inputFile);
-    setFileInputStatus(true);
     setFileInfo(inputFile.name);
     let nBytes = inputFile.size;
     setFileSize(getFileSize(nBytes));
