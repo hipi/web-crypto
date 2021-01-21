@@ -1,8 +1,8 @@
-import vue from "@vitejs/plugin-vue";
+import reactRefresh from '@vitejs/plugin-react-refresh'
 
 /**
- * @type {import('vite').UserConfig}
+ * @type { import('vite').UserConfig }
  */
 export default {
-  plugins: [vue()],
-};
+  plugins: [reactRefresh()]
+}

@@ -1,0 +1,112 @@
+.file-upload {
+  position: relative;
+  display: block;
+  .custom-file-input {
+    position: absolute;
+    z-index: 9999;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    cursor: pointer;
+    &.over + .file-placeholder {
+      background: #e9ecef;
+      .file-select {
+        background: #e9ecef;
+      }
+    }
+  }
+  .file-placeholder {
+    color: #606266;
+    font-size: 16px;
+    cursor: pointer;
+    border: 1px solid #dcdfe6;
+    border-radius: 2px;
+    height: 42px;
+    line-height: 42px;
+    display: flex;
+    .file-name {
+      flex: 1;
+      padding: 0 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .file-size {
+      padding: 0 10px;
+      color: #28a745;
+    }
+    .file-select {
+      padding: 0 10px;
+      line-height: 40px;
+      line-height: 40px;
+      color: #495057;
+      background-color: #f5f7fa;
+      border-left: 1px solid #dcdfe6;
+    }
+  }
+}
+.key {
+  margin-top: 20px;
+  display: flex;
+  .key-input {
+    flex: 1;
+    font-size: 16px;
+    height: 42px;
+    border: 1px solid #dcdfe6;
+    border-radius: 2px 0 0 2px;
+    &::-webkit-input-placeholder {
+      color: #606266;
+    }
+    padding: 0 10px;
+  }
+  .key-btn {
+    width: 85px;
+    padding: 0 10px;
+    color: #495057;
+    height: 42px;
+    background-color: #f5f7fa;
+    border: 1px solid #dcdfe6;
+    border-left: none;
+    border-radius: 0 2px 2px 0;
+    cursor: pointer;
+    &:hover {
+      background-color: #f4f4f4;
+    }
+    .key-refresh {
+      width: 20px;
+    }
+  }
+}
+
+.key-check {
+  margin-top: 20px;
+}
+.operate {
+  margin-top: 20px;
+  button {
+    width: 80px;
+    height: 30px;
+    border-radius: 2px;
+    border: 1px solid;
+    outline: none;
+    cursor: pointer;
+    & + button {
+      margin-left: 10px;
+    }
+    &.primary {
+      color: #409eff;
+      background: #ecf5ff;
+      border-color: #b3d8ff;
+    }
+    &.success {
+      color: #67c23a;
+      background: #f0f9eb;
+      border-color: #c2e7b0;
+    }
+    &.danger {
+      color: #f56c6c;
+      background: #fef0f0;
+      border-color: #fbc4c4;
+    }
+  }
+}
