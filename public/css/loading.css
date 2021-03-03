@@ -67,6 +67,5 @@
   }
   
   .spin-dot-spin {
-    transform: rotate(45deg);
     animation: rotate 1.2s infinite linear;
   }
