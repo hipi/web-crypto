@@ -168,7 +168,7 @@ function Crypto(props) {
       <div className="key">
         <input
           type="text"
-          placeholder="请输入解密密码"
+          placeholder="请输入密码/右边按钮自动生成"
           className="key-input"
           spellCheck="false"
           value={dKey}
